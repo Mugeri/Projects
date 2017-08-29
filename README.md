@@ -1,6 +1,7 @@
 # Projects
 
 This is a simple Projects API.
+<<<<<<< b73e5afb8e952d58adf7c3fbf5235ba4eeb9ba45
 
 To run it,
  1. Clone this repository
@@ -29,3 +30,5 @@ DELETE `http://localhost:8080/projects/<ID> ` to delete a dataset
 
 GET `http://localhost:8080/projects/<ID> ` to list all the projects dataset
 
+=======
+>>>>>>> setup the base structure
