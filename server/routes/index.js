@@ -10,6 +10,7 @@ const router = (app) => {
   app.get('/datasets/', datasets.all);
   app.delete('/projects/:id', project.delete);
   app.delete('/datasets/:id', datasets.delete);
+  app.get('/projects/:id', project.datasets);
 }
 
 module.exports = router;

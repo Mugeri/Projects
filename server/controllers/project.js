@@ -1,4 +1,5 @@
 const Project = require('../models/project');
+const DataSet = require('../models/dataset');
 
 const ProjectController = {
   create: (req, res) => {
@@ -63,6 +64,13 @@ const ProjectController = {
         });
       })
       .catch(err => res.status(501).send(err));
-  }
+  },
+
+  datasets: (req, res) => {
+    DataSet
+    .find({projectId: req.params.id})
+    .then(data => res.status(200).send(data))
+    .catch(err => res.status(404).send(err));
+  },
 }
 module.exports = ProjectController;
