@@ -1,15 +1,15 @@
-const data = require('../controllers/data');
+const datasets = require('../controllers/dataSet');
 const project = require('../controllers/project');
 
 const router = (app) => {
   app.post('/projects/', project.create);
-  app.post('/data/', data.create);
-  app.put('/projects/', project.update);
-  app.put('/data/', data.update);
+  app.post('/datasets/', datasets.create);
+  app.put('/projects/:id', project.update);
+  app.put('/datasets/:id', datasets.update);
   app.get('/projects/', project.all);
-  app.get('/data/', data.all);
-  app.delete('/projects/', project.delete);
-  app.delete('/data/', data.delete);
+  app.get('/datasets/', datasets.all);
+  app.delete('/projects/:id', project.delete);
+  app.delete('/datasets/:id', datasets.delete);
 }
 
 module.exports = router;

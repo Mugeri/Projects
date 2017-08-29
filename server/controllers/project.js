@@ -4,13 +4,19 @@ const ProjectController = {
   create: (req, res) => {
     const project = new Project();
     project.name = req.body.name;
-    project.data = req.body.data;
-    project.projectId = req.body.projectId;
+    //remove all white space and turn to array.
+    project.data = req.body.data.replace(/\s/g,'').split(",").map(String);
+    project.description = req.body.description;
+    project.count = (project.data).length;
+    project.archived = req.body.archived;
 
     project.save((err, data) => {
       if (err) return res.status(417).send(err);
 
-      return res.status(201).send({message: 'Project created'});
+      return res.status(201).send({
+        message: 'Project created',
+        data,
+      });
     });
   },
 
@@ -21,26 +27,27 @@ const ProjectController = {
         return res.status(404);
       }
       project.name = req.body.name;
-      project.data = req.body.data;
-      project.projectId = req.body.projectId;
+      project.data = req.body.data.replace(/\s/g,'').split(",").map(String);
+      project.description = req.body.description;
+      project.count = (project.data).length;
+      project.archived = req.body.archived;
 
-      project.save((err) => {
+      project.save((err, data) => {
         if (err) {
           return res.status(500).send(err);
         }
         return res.status(202).send({
           message: 'Dataset updated successfully!',
+          data,
         });
       });
-    }
+    });
   },
 
   all: (req, res) => {
     Project
     .find({})
-    .then((err, project) => {
-      if (err) return ;
-
+    .then((project) => {
       return res.status(200).send(project);
     })
     .catch(err => res.status(404).send(err));
@@ -58,3 +65,4 @@ const ProjectController = {
       .catch(err => res.status(501).send(err));
   }
 }
+module.exports = ProjectController;
