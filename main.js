@@ -1,5 +1,5 @@
-const app = require('express');
-// const router = require('./server/routes');
+const app = require('express')();
+const router = require('./server/routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// router(app);
+router(app);
 
 app.listen('8080', () => {
   console.log();
