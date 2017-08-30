@@ -6,13 +6,17 @@ const ProjectController = {
     const project = new Project();
     project.name = req.body.name;
     //remove all white space and turn to array.
-    project.data = req.body.data.replace(/\s/g,'').split(",").map(String);
+    project.data = req.body.data;
     project.description = req.body.description;
-    project.count = (project.data).length;
+    project.count = project.data.length;
     project.archived = req.body.archived;
+
+    console.log('Project: ', project);
 
     project.save((err, data) => {
       if (err) return res.status(417).send(err);
+
+      console.log('ERR IS: ', err);
 
       return res.status(201).send({
         message: 'Project created',
@@ -38,7 +42,7 @@ const ProjectController = {
           return res.status(500).send(err);
         }
         return res.status(202).send({
-          message: 'Dataset updated successfully!',
+          message: 'Project updated successfully!',
           data,
         });
       });
@@ -48,6 +52,7 @@ const ProjectController = {
   all: (req, res) => {
     Project
     .find({})
+    .populate('data')
     .then((project) => {
       return res.status(200).send(project);
     })
@@ -58,6 +63,7 @@ const ProjectController = {
     Project
       .findByIdAndRemove(req.params.id)
       .then(project => {
+        DataSet.deleteMany({projectId: project._id});
         return res.status(200).send({
           message: 'Delete successfull!',
           project,

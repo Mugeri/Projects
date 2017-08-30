@@ -7,17 +7,20 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
+    "chai": "^4.1.1",
     "chalk": "^2.1.0",
     "cors": "^2.8.4",
     "express": "^4.15.4",
+    "mocha": "^3.5.0",
     "mongoose": "^4.11.9",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "supertest": "^3.0.0"
   },
   "scripts": {
     "start": "node main.js",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "./node_modules/mocha/bin/_mocha tests/*.spec.js",
     "eject": "react-scripts eject"
   }
 }
