@@ -1,27 +1,25 @@
 const DataSet = require('../models/dataset');
-
-const jsonify = (string1) => {
-  return string1
-  .split(',')
-  .map(x => x.split(':').map(y => y.trim()))
-  .reduce((a, x) => {
-    a[x[0]] = x[1];
-    return a;
-  }, {});
-}
+const Project = require('../models/project');
 
 const DataSetController = {
   create: (req, res) => {
     const dataSet = new DataSet();
     dataSet.name = req.body.name;
-    dataSet.data = jsonify(req.body.data);
+    dataSet.data = req.body.data;
     dataSet.projectId = req.body.projectId;
 
     dataSet.save((err, data) => {
       if (err) return res.status(417).send(err);
 
+      Project.findById({_id: req.body.projectId})
+        .then((project) => {
+          project.data.push(data._id);
+          return project.save()
+        });
+
       return res.status(201).send({message: 'DataSet created', data});
     });
+
   },
 
   update: (req, res) => {
@@ -31,7 +29,7 @@ const DataSetController = {
         return res.status(404);
       }
       dataSet.name = req.body.name;
-      dataSet.data = jsonify(req.body.data);
+      dataSet.data = req.body.data;
       dataSet.projectId = req.body.projectId;
 
       dataSet.save((err, data) => {
