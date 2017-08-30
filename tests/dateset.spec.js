@@ -30,12 +30,7 @@ describe('Datasets', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .end((err, res) => {
-            if (err) {
-              return done(err);
-            }
-            expect(res.status).to.be.equal(200);
-            expect(res.body.length).to.be.equal(6);
-            console.log(res.body);
+            expect(res.body.length).to.be.equal(16);
             id = res.body[5]._id;
             done();
           });
@@ -60,14 +55,14 @@ describe('Datasets', () => {
       });
   });
   describe('Delete', () => {
-    it('should delete the document with the given Id', (done) => {
+    it('should delete the dataset with the given Id', (done) => {
       request
       .delete(`/datasets/${id}`)
       .end((err, res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body.message).to.be.equal('Delete successfull!');
         request
-        .get(`/datasets/${id}`)
+        .delete(`/datasets/${id}`)
         .end((err2, response) => {
           expect(response.status).to.be.equal(404);
           expect(response.err2).to.exist;
